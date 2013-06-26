@@ -60,29 +60,30 @@ def main():
     image_selected = event.ImageSelected()
     map_ = make_map.Map()
 
-    main_loop(mouse, images_loaded, cells, hover_rect_pos, map_began, 
+    main_loop(mouse, images_loaded, hover_rect_pos, map_began, 
               list_of_images, image_selected, what_is_clicked, present_layer, 
-              cell, mouse_down, map_, interface, what_color_for_empty_rect)
+              cell, mouse_down, map_, interface, what_color_for_empty_rect, cells)
 
 
-def main_loop(mouse, images_loaded, cells, hover_rect_pos, map_began, 
+def main_loop(mouse, images_loaded, hover_rect_pos, map_began, 
               list_of_images, image_selected, what_is_clicked, present_layer,
-              cell, mouse_down, map_, interface, what_color_for_empty_rect):
+              cell, mouse_down, map_, interface, what_color_for_empty_rect, cells,
+              is_blocking_cells_mode=False):
     '''The main loop.'''
     while True:
         mouse_clicked = False
 
         draw.fill()
-        interface.draw_menu(present_layer)
+        interface.draw_menu(present_layer, is_blocking_cells_mode)
         interface.draw_zones()
         draw.images_list(images_loaded, interface.list_rect, list_of_images)
         interface.draw_grid(cells)   
         draw.selected_rect(image_selected.rect_pos)
-        if map_.array:
-            draw.map_(map_.array, images_loaded, list_of_images, 
+        if map_.map:
+            draw.map_(map_.map, images_loaded, list_of_images, 
                       interface.map_rect, map_.number_of_layers)
         draw.hover_rect(hover_rect_pos, what_color_for_empty_rect)
-        
+        interface.draw_Xs_and_Os(is_blocking_cells_mode, map_.blocking_cells, cells)
         
         mouse, mouse_clicked, mouse_down = event.handling(mouse, mouse_clicked,
                                                           mouse_down)
@@ -102,15 +103,18 @@ def main_loop(mouse, images_loaded, cells, hover_rect_pos, map_began,
                                                 list_of_images, draw.CELL_SIZE)
             
             what_text_is_clicked = event.click_text_at_pixel(
-                mouse, interface.text_rects)
+                mouse, interface.text_rects, is_blocking_cells_mode)
             if what_text_is_clicked is not None:
                 if what_text_is_clicked == 'new map':
                     cells = event.get_map_size_input()
                     map_.new(cells)
-                    # file_read, array = make_map.read()
+                    interface.prepare_Xs_and_Os(cells)
                     map_began = True
                 elif what_text_is_clicked == 'save map':
                     map_.save()
+                elif what_text_is_clicked == 'blocking cells mode':
+                    is_blocking_cells_mode = event.change_mode(
+                        is_blocking_cells_mode)
                 else:
                     present_layer = what_text_is_clicked
                     print(present_layer)
@@ -120,10 +124,14 @@ def main_loop(mouse, images_loaded, cells, hover_rect_pos, map_began,
                                             draw.CELL_SIZE, 'cell')
 
         if map_began:
-            if mouse_down and image_selected:
+            if mouse_down and image_selected and not is_blocking_cells_mode:
                 if cell is not None and present_layer is not None:
-                    map_.draw(cell, present_layer,
+                    map_.add_cells(cell, present_layer,
                               image_selected.image_selected)
+            if mouse_clicked and is_blocking_cells_mode:
+                if cell is not None:
+                    map_.add_blocking_cells(cell)
+                
         
         pygame.display.update()
         FPSCLOCK.tick(FPS)

@@ -22,27 +22,47 @@ import pickle
 class Map():
     '''Manages the map.'''
     def __init__(self):
-        self.array = []
+        self.map = []
+        self.blocking_cells = []
         self.number_of_layers = 0
         self.file_read = None
 
     def new(self, cells):
         '''Creates the array of the map and sets the number of layers.'''
-        def get_columns(cells_y):
-            column = [[0, 0, 0] for cell in range(0, cells_y)]
+        self.map = [[[0 for _ in xrange(3)] for _ in xrange(cells[0])] for _ in range(cells[1])]
+        '''
+        def get_columns(what, cells_y):
+            column = [what for cell in range(0, cells_y)]
             return column
-        self.array = [get_columns(cells[1]) for column in range(0, cells[0])]
-        self.number_of_layers = len(self.array[0][0])
+        self.map = [get_columns([0, 0, 0], cells[1]) for column in range(0, cells[0])]
+        '''
+        self.number_of_layers = len(self.map[0][0])
+        self.blocking_cells = [[0 for _ in xrange(cells[0])] for _ in range(cells[1])]
+        print(self.map)
 
-    def draw(self, cell, present_layer, image_selected):
+    def add_cells(self, cell, present_layer, image_selected):
         '''Manages the “drawing” applied on the array. With an image selected
         in the list of images and a layer selected in the menu, the users 
         presses the mouse on array grid, where it adds the image selected on 
         the layer selected in the array.'''
-        self.array[cell[0]][cell[1]][present_layer] = image_selected
+        try:
+            self.map[cell[0]][cell[1]][present_layer] = image_selected
+        except IndexError:
+            print(self.map)
+            print(cell[0])
+            print(cell[1])
+            print(present_layer)
+
+    def add_blocking_cells(self, cell):
+        if self.blocking_cells[cell[0]][cell[1]] == 0:
+            self.blocking_cells[cell[0]][cell[1]] = 1
+        elif self.blocking_cells[cell[0]][cell[1]] == 1:
+            self.blocking_cells[cell[0]][cell[1]] = 0
+        print(self.blocking_cells)
 
     def save(self):
         '''Saves the array to a file called “map”.'''
         with open('map', 'wb') as file_write:
-            pickle.dump(self.array, file_write)
+            
+            pickle.dump({'map':self.map,'blocking_cells':self.blocking_cells}, file_write)
             print('Map saved!')

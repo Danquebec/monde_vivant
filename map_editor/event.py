@@ -83,7 +83,7 @@ def find_cell_at_pixel(mouse, map_rect, cells, CELL_SIZE, what_is_wanted):
         return None, None
 
 
-def click_text_at_pixel(mouse, text_rects):
+def click_text_at_pixel(mouse, text_rects, is_cells_blocking_mode):
     '''Find if the mouse clicked on a menu item and what menu item.'''
     for rect in text_rects:
         if rect.collidepoint(mouse[0], mouse[1]):
@@ -91,18 +91,39 @@ def click_text_at_pixel(mouse, text_rects):
                 return 'new map'
             elif rect == text_rects[1]:
                 return 'save map'
+            elif rect == text_rects[2]:
+                return 'blocking cells mode'
             else:
-                for position in range(2, len(text_rects)):
-                    if rect == text_rects[position]:
-                        return position - 2
+                if not is_cells_blocking_mode:
+                    for position in range(3, len(text_rects)):
+                        if rect == text_rects[position]:
+                            return position - 3
     return None
+
+
+def change_mode(is_blocking_cells_mode):
+    if is_blocking_cells_mode:
+        is_blocking_cells_mode = False
+    elif not is_blocking_cells_mode:
+        is_blocking_cells_mode = True
+    return is_blocking_cells_mode
 
 
 def get_map_size_input():
     '''Get the desired size of the map, or more presicely, the number of cells
     on x and y desired, which is entered by the user.'''
-    x = int(raw_input('cells on x\n> '))
-    y = int(raw_input('cells on y\n> '))
+    def get_value_input(desired_value):
+        while True:
+            try:
+                value = int(raw_input('cells on {}\n> '.format(desired_value)))
+            except ValueError:
+                value = 0
+            if value < 2:
+                print('The number of cells on each side must be at least 2!')
+            elif value >= 2:
+                return value
+    x = get_value_input('x')
+    y = get_value_input('y')
     cells = (x, y)
     return cells
 

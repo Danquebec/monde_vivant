@@ -40,10 +40,10 @@ def fill():
     DISPLAYSURF.fill((0, 0, 0))
 
 
-def cells(images_loaded, number_of_layers, array, everything_that_can_be,
+def cells_on_lower_layers(images_loaded, number_of_layers, array, everything_that_can_be,
           map_move):
-    '''Draws all the cells, each frame.'''
-    for number in range(0, 4):
+    '''Draws all the cells on the layers lower than the creatures.'''
+    for number in range(0, number_of_layers-1): # Hum… This was at 4 before… Why. How.
         column_number = 0
         for column in array:
             cell_number = 0
@@ -68,6 +68,45 @@ def cells(images_loaded, number_of_layers, array, everything_that_can_be,
                         pass
                 cell_number += 1
             column_number += 1
+
+
+def cells_on_higher_layer(images_loaded, array, everything_that_can_be, map_move):
+    '''Draws the cells on the layer higher than the creatures.'''
+    column_number = 0
+    for column in array:
+        cell_number = 0
+        for cell in column:
+            for thing in everything_that_can_be:
+                try:
+                    if cell[2] == thing:
+                        try:
+                            DISPLAYSURF.blit(
+                                images_loaded[thing],
+                                ((column_number*CELLSIZE)+map_move[0],
+                                (cell_number*CELLSIZE)+map_move[1]))
+                        except pygame.error:
+                            pygame.draw.rect(
+                                DISPLAYSURF, (0, 0, 0),
+                                ((column_number*CELLSIZE)+map_move[0],
+                                (cell_number*CELLSIZE)+map_move[1],
+                                CELLSIZE, CELLSIZE))
+                            # TODO: (0, 0, 0) should be a random color,
+                            # instead.
+                except IndexError:
+                    pass
+            cell_number += 1
+        column_number += 1
+
+
+def creatures(list_of_creatures, everything_that_can_be, images_loaded, map_move):
+    for creature in list_of_creatures:
+        for thing in everything_that_can_be:
+            if creature.image == thing:
+                try:
+                    DISPLAYSURF.blit(images_loaded[thing], ((creature.pos[0]*CELLSIZE)+map_move[0], (creature.pos[1]*CELLSIZE)+map_move[1]))
+                except pygame.error:
+                    pygame.draw.rect(DISPLAYSURF, (0, 0, 0), ((creature.pos[0]*CELLSIZE)+map_move[0], (creature.pos[1]*CELLSIZE)+map_move[1]))
+                    # TODO: (0, 0, 0) should be a random color, instead.
 
 
 def bottom_bar_zone():

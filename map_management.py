@@ -22,7 +22,8 @@ import pickle
 class map_():
     '''The class representing the map.'''
     def __init__(self):
-        self.array = []
+        self.map = []
+        self.blocking_cells = []
         self.number_of_layers = 0
         self.file_read = None
     def read(self):
@@ -30,6 +31,8 @@ class map_():
         thenumber_of_layers used on this map by looking the first cell of the
         map (array)'''
         self.file_read = open('map', 'rb')
-        self.array = pickle.load(self.file_read)
-        print(self.array)
-        self.number_of_layers = len(self.array[0][0])
+        map_dic = pickle.load(self.file_read)
+        self.map = map_dic['map']
+        self.blocking_cells = map_dic['blocking_cells']
+        print(self.map)
+        self.number_of_layers = len(self.map[0][0])

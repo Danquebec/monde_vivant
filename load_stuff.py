@@ -49,3 +49,15 @@ def images(number_of_layers, array):
                         pass
                     present_layer += 1
     return images_loaded
+
+
+def what_the_programmer_wants(images_loaded, thing_wanted):
+    for thing in everything_that_can_be:
+        if thing == thing_wanted:
+            try:
+                images_loaded[thing] = image.load(
+                    'art/{}.png'.format(thing))
+            except pygame.error:
+                print('No {}.png found, using basic rectangle '
+                      'for {}(s)…'.format(thing))
+    return images_loaded

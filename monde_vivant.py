@@ -45,44 +45,88 @@ def main():
     map_.read()
     
     # We load images here, so that they be loaded only once.
-    images_loaded = load_stuff.images(map_.number_of_layers, map_.array)
+    images_loaded = load_stuff.images(map_.number_of_layers, map_.map)
+    images_loaded = load_stuff.what_the_programmer_wants(
+        images_loaded, 'heros')
     
     map_move = [0, 0]
-    
+
     heros = list_of_creatures[0]
 
     main_loop(mouse, mouse_down, images_loaded, map_.number_of_layers,
-              map_.array, map_move, heros)
+              map_.map, map_move, heros)
 
 
 def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array,
-              map_move, heros, toward_where=False, tick_began=False):
+              map_move, heros, toward_where=False, tick_began=False,
+              moving=False):
     '''The game loop.'''
     while True:
         mouse_clicked = False
         
+        # TODO: Something that allows the player to start changing direction
+        # quickly (as of now, pressing an arrow key before stopping
+        # pressing another arrow key doesn’t allow you to start moving in
+        # this direction. You have to carefully remove your finger from the
+        # the arrow key you were pressing before pressing another).
+        if toward_where:
+            # Trying to move…
+            if not tick_began and not moving:
+                # First foot…
+                heros.move(toward_where)
+                print(heros.pos)
+                tick_began = time()
+                moving = True
+            
+            # The next feet…
+            if tick_began and moving:
+                if time() - tick_began >= heros.speed:
+                    heros.move(toward_where)
+                    print(heros.pos)
+                    tick_began = False
+            
+            # Handle the next feet…
+            if not tick_began and moving:
+                tick_began = time()
+        
+        # Stop moving…
+        if moving:
+            if not toward_where:
+                if time() - tick_began >= heros.speed:
+                    tick_began = False
+                    moving = False
+        
+        '''
+        # 4) Stop moving:
         if not toward_where:
             is_moving = False
         
+        # 3) Handle the next feet:
         if toward_where and not tick_began and is_moving:
             tick_began = time()
         
+        # 1) The first foot:
         if toward_where and not is_moving:
             heros.move(toward_where)
+            print(heros.pos)
             tick_began = time()
             is_moving = True
         
+        # 2) The next feet:
         if tick_began:
             if time() - tick_began >= heros.speed:
                 heros.move(toward_where)
                 print(heros.pos)
                 tick_began = False
+        '''
         
         #slide_to, map_move = event.slide_to(slide_to, map_move, draw.CELLSIZE)
         
         draw.fill()
-        draw.cells(images_loaded, number_of_layers, array,
+        draw.cells_on_lower_layers(images_loaded, number_of_layers, array,
                    load_stuff.everything_that_can_be, map_move)
+        draw.creatures(list_of_creatures, load_stuff.everything_that_can_be, images_loaded, map_move)
+        draw.cells_on_higher_layer(images_loaded, array, load_stuff.everything_that_can_be, map_move)
         draw.bottom_bar_zone()
         
         mouse, mouse_clicked, mouse_down, toward_where = event.handling(

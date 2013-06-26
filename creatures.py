@@ -27,9 +27,9 @@ class Creature:
         self.speed = speed
     def move(self, toward_where):
         if toward_where == 'up':
-            self.pos[1] += 1
-        elif toward_where == 'down':
             self.pos[1] -= 1
+        elif toward_where == 'down':
+            self.pos[1] += 1
         elif toward_where == 'right':
             self.pos[0] += 1
         elif toward_where == 'left':
@@ -37,8 +37,8 @@ class Creature:
 
 
 class Human(Creature):
-    '''A human'''
-    def __init__(self, pos, sex, age, size, strenght, image, speed):
+    '''A human.'''
+    def __init__(self, pos, image, sex, age, size, strenght, speed):
         self.sex = sex # female or male
         self.age = age
         self.size = size
@@ -56,7 +56,7 @@ class Human(Creature):
         self.pos = pos
         self.image = image
         self.speed = speed
-        # humans take 80 to 40 miliseconds to move throught a cell.
+        # humans take 600 to 100 miliseconds to move throught a cell.
     creature_type = 'organic'
 
 
@@ -84,5 +84,5 @@ print(peon.y)
 '''
 
 # Test:
-heros = Human([0, 0], 'male', 22, 170, 2, 'heros', 0.060000)
+heros = Human([0, 0], 'heros', 'male', 22, 170, 2, 0.300000)
 list_of_creatures.append(heros)
