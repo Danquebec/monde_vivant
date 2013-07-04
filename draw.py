@@ -20,14 +20,16 @@
 import pygame
 from pygame.locals import *
 
-WINDOWSIZEx = 600 # Size of the screen
-WINDOWSIZEy = 400 # Size of the screen
+CELL_SIZE = 50
+
+WINDOWSIZEx = 11 * CELL_SIZE # Size of the screen
+WINDOWSIZEy = 11 * CELL_SIZE # Size of the screen
 
 BOTTOMBARSIZEx = WINDOWSIZEx
 BOTTOMBARSIZEy = 60
 BOTTOMBARCOLOR = (101, 150, 200)
 
-CELLSIZE = 50
+
 
 def set_mode():
     '''Sets the mode.'''
@@ -54,14 +56,14 @@ def cells_on_lower_layers(images_loaded, number_of_layers, array, everything_tha
                             try:
                                 DISPLAYSURF.blit(
                                     images_loaded[thing],
-                                    ((column_number*CELLSIZE)+map_move[0],
-                                    (cell_number*CELLSIZE)+map_move[1]))
+                                    ((column_number*CELL_SIZE)-map_move[0],
+                                    (cell_number*CELL_SIZE)-map_move[1]))
                             except pygame.error:
                                 pygame.draw.rect(
                                     DISPLAYSURF, (0, 0, 0),
-                                    ((column_number*CELLSIZE)+map_move[0],
-                                    (cell_number*CELLSIZE)+map_move[1],
-                                    CELLSIZE, CELLSIZE))
+                                    ((column_number*CELL_SIZE)-map_move[0],
+                                    (cell_number*CELL_SIZE)-map_move[1],
+                                    CELL_SIZE, CELL_SIZE))
                                 # TODO: (0, 0, 0) should be a random color,
                                 # instead.
                     except IndexError:
@@ -82,14 +84,14 @@ def cells_on_higher_layer(images_loaded, array, everything_that_can_be, map_move
                         try:
                             DISPLAYSURF.blit(
                                 images_loaded[thing],
-                                ((column_number*CELLSIZE)+map_move[0],
-                                (cell_number*CELLSIZE)+map_move[1]))
+                                ((column_number*CELL_SIZE)-map_move[0],
+                                (cell_number*CELL_SIZE)-map_move[1]))
                         except pygame.error:
                             pygame.draw.rect(
                                 DISPLAYSURF, (0, 0, 0),
-                                ((column_number*CELLSIZE)+map_move[0],
-                                (cell_number*CELLSIZE)+map_move[1],
-                                CELLSIZE, CELLSIZE))
+                                ((column_number*CELL_SIZE)-map_move[0],
+                                (cell_number*CELL_SIZE)-map_move[1],
+                                CELL_SIZE, CELL_SIZE))
                             # TODO: (0, 0, 0) should be a random color,
                             # instead.
                 except IndexError:
@@ -97,20 +99,52 @@ def cells_on_higher_layer(images_loaded, array, everything_that_can_be, map_move
             cell_number += 1
         column_number += 1
 
+MARGIN = 5
 
-def creatures(list_of_creatures, everything_that_can_be, images_loaded, map_move):
+def creatures(list_of_creatures, everything_that_can_be, images_loaded, map_move, array):
+    def put_heros_at_right_place(heros, axis, cells):
+        #print(cells)
+        if heros.pos[axis] <= MARGIN:
+            screen_pos = heros.pos[axis]
+        elif heros.pos[axis] > MARGIN and heros.pos[axis] <= cells - MARGIN:
+            screen_pos = 5
+        elif heros.pos[axis] > cells - MARGIN:
+            screen_pos = heros.pos[axis] - (cells - (MARGIN * 2))
+        return screen_pos
     for creature in list_of_creatures:
         for thing in everything_that_can_be:
-            if creature.image == thing:
-                try:
-                    DISPLAYSURF.blit(images_loaded[thing], ((creature.pos[0]*CELLSIZE)+map_move[0], (creature.pos[1]*CELLSIZE)+map_move[1]))
-                except pygame.error:
-                    pygame.draw.rect(DISPLAYSURF, (0, 0, 0), ((creature.pos[0]*CELLSIZE)+map_move[0], (creature.pos[1]*CELLSIZE)+map_move[1]))
-                    # TODO: (0, 0, 0) should be a random color, instead.
+            if creature == list_of_creatures[0]: # if it’s the heros
+                if creature.image == thing:
+                    screen_pos = [put_heros_at_right_place(list_of_creatures[0], 0, len(array)), put_heros_at_right_place(list_of_creatures[0], 1, len(array[0]))]
+                    try:
+                        DISPLAYSURF.blit(images_loaded[thing], ((screen_pos[0]*CELL_SIZE), (screen_pos[1]*CELL_SIZE)))
+                    except pygame.error:
+                        pygame.draw.rect(DISPLAYSURF, (0, 0, 0), ((screen_pos[0]*CELL_SIZE), (screen_pos[1]*CELL_SIZE)))
+                        # TODO: (0, 0, 0) should be a random color, instead.
+            
+            else:
+                if creature.image == thing:
+                    try:
+                        DISPLAYSURF.blit(images_loaded[thing], ((creature.pos[0]*CELL_SIZE)-map_move[0], (creature.pos[1]*CELL_SIZE)-map_move[1]))
+                    except pygame.error:
+                        pygame.draw.rect(DISPLAYSURF, (0, 0, 0), ((creature.pos[0]*CELL_SIZE)-map_move[0], (creature.pos[1]*CELL_SIZE)-map_move[1]))
+                        # TODO: (0, 0, 0) should be a random color, instead.
 
-
+'''
 def bottom_bar_zone():
-    '''Mostly for test. Will definitely change.'''
     pygame.draw.rect(
         DISPLAYSURF, BOTTOMBARCOLOR, (0, (WINDOWSIZEy - BOTTOMBARSIZEy),
         BOTTOMBARSIZEx, BOTTOMBARSIZEy))
+'''
+
+def move_camera(heros, array):
+    def move_camera_on_both_axis(heros, cells, axis):
+        if heros.pos[axis] <= MARGIN:
+            map_move = 0
+        elif heros.pos[axis] > MARGIN and heros.pos[axis] <= cells - MARGIN:
+            map_move = (heros.pos[axis] - MARGIN) * CELL_SIZE
+        elif heros.pos[axis] > cells - MARGIN:
+            map_move = (cells - (MARGIN * 2)) * CELL_SIZE
+        return map_move
+    map_move = [move_camera_on_both_axis(heros, len(array), 0), move_camera_on_both_axis(heros, len(array[0]), 1)]
+    return map_move

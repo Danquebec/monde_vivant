@@ -25,15 +25,54 @@ class Creature:
         self.pos = pos
         self.image = image
         self.speed = speed
-    def move(self, toward_where):
+    def move(self, blocking_cells_map, toward_where, list_of_creatures):
+        def try_to_move(blocking_cells_map, list_of_creatures, x, y):
+            def against_obstacle(blocking_cells_map, x, y):
+                try:
+                    if blocking_cells_map[x][y] == 0:
+                        print(blocking_cells_map[x])
+                        return False
+                    elif blocking_cells_map[x][y] == 1:
+                        return True
+                    else:
+                        print('There is a {} in blocking_cells of map! There '
+                              'should only be 1 or 2!'.format(blocking_cells_map[x][y]))
+                        raise
+                except IndexError:
+                    return True
+
+            def against_creature(list_of_creatures, x, y):
+                for creature in list_of_creatures[1:]:
+                    if creature.pos[0] == x and creature.pos[1] == y:
+                        return True
+                    else:
+                        return False
+
+            if x >= 0 and y >= 0:
+                if (not against_obstacle(blocking_cells_map, x, y) and not
+                        against_creature(list_of_creatures, x, y)):
+                    self.pos = [x, y]
+         
         if toward_where == 'up':
-            self.pos[1] -= 1
+            '''
+            if (try_obstacle(
+                    blocking_cells_map, self.pos[0], self.pos[1]-1) and
+                    try_creature(
+                    list_of_creatures, self.pos[0], self.pos[1]-1)):
+                self.pos[1] =- 1
+            # try_to_move(blocking_cells_map, self.pos[0], self.pos[1]-1)
+            '''
+            try_to_move(blocking_cells_map, list_of_creatures,
+                        self.pos[0], self.pos[1]-1)
         elif toward_where == 'down':
-            self.pos[1] += 1
+            try_to_move(blocking_cells_map, list_of_creatures,
+                        self.pos[0], self.pos[1]+1)
         elif toward_where == 'right':
-            self.pos[0] += 1
+            try_to_move(blocking_cells_map, list_of_creatures,
+                        self.pos[0]+1, self.pos[1])
         elif toward_where == 'left':
-            self.pos[0] -= 1
+            try_to_move(blocking_cells_map, list_of_creatures,
+                        self.pos[0]-1, self.pos[1])
 
 
 class Human(Creature):
@@ -85,4 +124,6 @@ print(peon.y)
 
 # Test:
 heros = Human([0, 0], 'heros', 'male', 22, 170, 2, 0.300000)
+peasant = Human([2, 4], 'hunter-gatherers', 'male', 22, 170, 2, 0.300000)
 list_of_creatures.append(heros)
+list_of_creatures.append(peasant)

@@ -48,16 +48,17 @@ def main():
     images_loaded = load_stuff.images(map_.number_of_layers, map_.map)
     images_loaded = load_stuff.what_the_programmer_wants(
         images_loaded, 'heros')
-    
-    map_move = [0, 0]
+    images_loaded = load_stuff.what_the_programmer_wants(images_loaded,
+        'hunter-gatherers')
 
     heros = list_of_creatures[0]
+    map_move = draw.move_camera(heros, map_.map)
 
     main_loop(mouse, mouse_down, images_loaded, map_.number_of_layers,
-              map_.map, map_move, heros)
+              map_.map, map_.blocking_cells, map_move, heros)
 
 
-def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array,
+def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array, blocking_cells_map,
               map_move, heros, toward_where=False, tick_began=False,
               moving=False):
     '''The game loop.'''
@@ -73,7 +74,7 @@ def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array,
             # Trying to move…
             if not tick_began and not moving:
                 # First foot…
-                heros.move(toward_where)
+                heros.move(blocking_cells_map, toward_where, list_of_creatures)
                 print(heros.pos)
                 tick_began = time()
                 moving = True
@@ -81,11 +82,12 @@ def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array,
             # The next feet…
             if tick_began and moving:
                 if time() - tick_began >= heros.speed:
-                    heros.move(toward_where)
+                    heros.move(blocking_cells_map, toward_where,
+                               list_of_creatures)
                     print(heros.pos)
                     tick_began = False
             
-            # Handle the next feet…
+            # Handle the next feet after the second one…
             if not tick_began and moving:
                 tick_began = time()
         
@@ -96,38 +98,16 @@ def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array,
                     tick_began = False
                     moving = False
         
-        '''
-        # 4) Stop moving:
-        if not toward_where:
-            is_moving = False
-        
-        # 3) Handle the next feet:
-        if toward_where and not tick_began and is_moving:
-            tick_began = time()
-        
-        # 1) The first foot:
-        if toward_where and not is_moving:
-            heros.move(toward_where)
-            print(heros.pos)
-            tick_began = time()
-            is_moving = True
-        
-        # 2) The next feet:
-        if tick_began:
-            if time() - tick_began >= heros.speed:
-                heros.move(toward_where)
-                print(heros.pos)
-                tick_began = False
-        '''
+        map_move = draw.move_camera(heros, array)
         
         #slide_to, map_move = event.slide_to(slide_to, map_move, draw.CELLSIZE)
         
         draw.fill()
         draw.cells_on_lower_layers(images_loaded, number_of_layers, array,
                    load_stuff.everything_that_can_be, map_move)
-        draw.creatures(list_of_creatures, load_stuff.everything_that_can_be, images_loaded, map_move)
+        draw.creatures(list_of_creatures, load_stuff.everything_that_can_be, images_loaded, map_move, array)
         draw.cells_on_higher_layer(images_loaded, array, load_stuff.everything_that_can_be, map_move)
-        draw.bottom_bar_zone()
+        # draw.bottom_bar_zone()
         
         mouse, mouse_clicked, mouse_down, toward_where = event.handling(
             mouse, mouse_clicked, mouse_down, toward_where)

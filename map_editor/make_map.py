@@ -29,7 +29,7 @@ class Map():
 
     def new(self, cells):
         '''Creates the array of the map and sets the number of layers.'''
-        self.map = [[[0 for _ in xrange(3)] for _ in xrange(cells[0])] for _ in range(cells[1])]
+        self.map = [[[0 for _ in xrange(3)] for _ in xrange(cells[1])] for _ in range(cells[0])]
         '''
         def get_columns(what, cells_y):
             column = [what for cell in range(0, cells_y)]
@@ -37,8 +37,10 @@ class Map():
         self.map = [get_columns([0, 0, 0], cells[1]) for column in range(0, cells[0])]
         '''
         self.number_of_layers = len(self.map[0][0])
-        self.blocking_cells = [[0 for _ in xrange(cells[0])] for _ in range(cells[1])]
-        print(self.map)
+        self.blocking_cells = [[0 for _ in xrange(cells[1])] for _ in range(cells[0])]
+        print(cells[0])
+        for column in self.map:
+            print(column)
 
     def add_cells(self, cell, present_layer, image_selected):
         '''Manages the “drawing” applied on the array. With an image selected
@@ -48,9 +50,10 @@ class Map():
         try:
             self.map[cell[0]][cell[1]][present_layer] = image_selected
         except IndexError:
-            print(self.map)
-            print(cell[0])
-            print(cell[1])
+            for column in self.map:
+                print(column)
+            print('cell[0]:{}'.format(cell[0]))
+            print('cell[1]:{}'.format(cell[1]))
             print(present_layer)
 
     def add_blocking_cells(self, cell):
