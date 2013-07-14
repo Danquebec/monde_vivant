@@ -53,19 +53,10 @@ def cells_on_lower_layers(images_loaded, number_of_layers, array, everything_tha
                 for thing in everything_that_can_be:
                     try:
                         if cell[number] == thing:
-                            try:
-                                DISPLAYSURF.blit(
+                            DISPLAYSURF.blit(
                                     images_loaded[thing],
                                     ((column_number*CELL_SIZE)-map_move[0],
                                     (cell_number*CELL_SIZE)-map_move[1]))
-                            except pygame.error:
-                                pygame.draw.rect(
-                                    DISPLAYSURF, (0, 0, 0),
-                                    ((column_number*CELL_SIZE)-map_move[0],
-                                    (cell_number*CELL_SIZE)-map_move[1],
-                                    CELL_SIZE, CELL_SIZE))
-                                # TODO: (0, 0, 0) should be a random color,
-                                # instead.
                     except IndexError:
                         pass
                 cell_number += 1
@@ -81,19 +72,10 @@ def cells_on_higher_layer(images_loaded, array, everything_that_can_be, map_move
             for thing in everything_that_can_be:
                 try:
                     if cell[2] == thing:
-                        try:
-                            DISPLAYSURF.blit(
+                        DISPLAYSURF.blit(
                                 images_loaded[thing],
                                 ((column_number*CELL_SIZE)-map_move[0],
                                 (cell_number*CELL_SIZE)-map_move[1]))
-                        except pygame.error:
-                            pygame.draw.rect(
-                                DISPLAYSURF, (0, 0, 0),
-                                ((column_number*CELL_SIZE)-map_move[0],
-                                (cell_number*CELL_SIZE)-map_move[1],
-                                CELL_SIZE, CELL_SIZE))
-                            # TODO: (0, 0, 0) should be a random color,
-                            # instead.
                 except IndexError:
                     pass
             cell_number += 1
@@ -116,19 +98,11 @@ def creatures(list_of_creatures, everything_that_can_be, images_loaded, map_move
             if creature == list_of_creatures[0]: # if it’s the heros
                 if creature.image == thing:
                     screen_pos = [put_heros_at_right_place(list_of_creatures[0], 0, len(array)), put_heros_at_right_place(list_of_creatures[0], 1, len(array[0]))]
-                    try:
-                        DISPLAYSURF.blit(images_loaded[thing], ((screen_pos[0]*CELL_SIZE), (screen_pos[1]*CELL_SIZE)))
-                    except pygame.error:
-                        pygame.draw.rect(DISPLAYSURF, (0, 0, 0), ((screen_pos[0]*CELL_SIZE), (screen_pos[1]*CELL_SIZE)))
-                        # TODO: (0, 0, 0) should be a random color, instead.
+                    DISPLAYSURF.blit(images_loaded[thing], ((screen_pos[0]*CELL_SIZE), (screen_pos[1]*CELL_SIZE)))
             
             else:
                 if creature.image == thing:
-                    try:
-                        DISPLAYSURF.blit(images_loaded[thing], ((creature.pos[0]*CELL_SIZE)-map_move[0], (creature.pos[1]*CELL_SIZE)-map_move[1]))
-                    except pygame.error:
-                        pygame.draw.rect(DISPLAYSURF, (0, 0, 0), ((creature.pos[0]*CELL_SIZE)-map_move[0], (creature.pos[1]*CELL_SIZE)-map_move[1]))
-                        # TODO: (0, 0, 0) should be a random color, instead.
+                    DISPLAYSURF.blit(images_loaded[thing], ((creature.pos[0]*CELL_SIZE)-map_move[0], (creature.pos[1]*CELL_SIZE)-map_move[1]))
 
 '''
 def bottom_bar_zone():

@@ -19,13 +19,15 @@
 
 import pickle
 
-class map_():
-    '''The class representing the map.'''
+class World():
+    '''The class representing the world.'''
     def __init__(self):
         self.map = []
         self.blocking_cells = []
         self.number_of_layers = 0
         self.file_read = None
+        self.file_write = None
+
     def read(self):
         '''Creates the reader of a file, the 2D array from the file, finds
         thenumber_of_layers used on this map by looking the first cell of the
@@ -34,5 +36,9 @@ class map_():
         map_dic = pickle.load(self.file_read)
         self.map = map_dic['map']
         self.blocking_cells = map_dic['blocking_cells']
-        print(self.map)
         self.number_of_layers = len(self.map[0][0])
+
+    def modify(self, layer, image, pos):
+        print('modify')
+        self.map[pos[0]][pos[1]][layer] = image
+        return 'penis'

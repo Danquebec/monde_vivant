@@ -17,14 +17,17 @@
 # You should have received a copy of the GNU General Public License v3
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from time import time
+
 list_of_creatures = []
 
 class Creature:
     '''Anything that moves and can do actions in the game.'''
-    def __init__(self, pos, image, speed):
+    def __init__(self, pos, image, speed, ):
         self.pos = pos
         self.image = image
         self.speed = speed
+        
     def move(self, blocking_cells_map, toward_where, list_of_creatures):
         def try_to_move(blocking_cells_map, list_of_creatures, x, y):
             def against_obstacle(blocking_cells_map, x, y):
@@ -39,6 +42,7 @@ class Creature:
                               'should only be 1 or 2!'.format(blocking_cells_map[x][y]))
                         raise
                 except IndexError:
+                    print(blocking_cells_map[0][0])
                     return True
 
             def against_creature(list_of_creatures, x, y):
@@ -75,55 +79,55 @@ class Creature:
                         self.pos[0]-1, self.pos[1])
 
 
-class Human(Creature):
-    '''A human.'''
-    def __init__(self, pos, image, sex, age, size, strenght, speed):
+class Humanoid(Creature):
+    '''A humanoid creature.'''
+    def __init__(self, pos, image, sex, age, size, strenght, speed,
+                 strong_hand_wield=None, weak_hand_wield=None):
         self.sex = sex # female or male
         self.age = age
         self.size = size
-        # Usually (white ethnicity):
-        # Females: 154cm to 174cm. Summum reached at 15 - 20 years old.
-        # 4cm smaller at 70 years old.
-        # Males: 168cm to 190cm. Summum reached at 20 - 25.
-        # 6cm smaller at 15 years old.
-        # 4cm smaller at 70 years old.
-        # Infants just born: 36cm to 51cm.
-        # TODO: create a text in a separate file that would define the game.
         self.strenght = strenght
-        # lvl 2 to 7 for male adults. lvl 1 to 6 for female adults. An infant
-        # will be 0.
         self.pos = pos
         self.image = image
         self.speed = speed
         # humans take 600 to 100 miliseconds to move throught a cell.
-    creature_type = 'organic'
+        self.equipment = {'strong hand wield':strong_hand_wield,
+                          'weak hand wield':weak_hand_wield}
+    type_ = 'intelligent animal'
+    
+    def till(self, environment, world):
+        error_message = ('You need a hoe to till! Or else you can use '
+                        'animals or a machine.')
+        try:
+            if self.equipment['strong hand wield'].type_ == 'hoe':
+                start = time()
+                print('Started tilling…')
+                while time() < start + 1.000000:
+                    pass
+                    # TODO: till_animation()
+                print('wut')
+                environment.add_crop(world, self.pos)
+                print('Finished tilling!')
+            else:
+                print(error_message)
+                print(self.equipment['strong hand wield'].type_)
+        except AttributeError:
+            print(error_message)
+            print(self.equipment)
+            print(self.equipment['strong hand wield'].type_)
 
 
-class Peasant(Human):
-    '''Peasant males usually have a strenght of 4. Can be 2 to 3 if 
-       malnurished. Can be 5 if fat and big.
-       Peasant females usually have a strenght of 3. Can be 1 to 2 if 
-       malnurished. Can be 4 if fat and big.'''
+class WieldableObject:
+    def __init__(self, name, type_, material):
+        self.name = name
+        self.type_ = type_
+        self.material = material
 
-# Examples (deprecated lol):
-'''
-garanar = Human((0, 4), 'male', 34, 177, 5, 'garanar')
-
-print(garanar.sex)
-
-peon = Peasant((2, 4), 'male', 44, 170, 3, 'peasant')
-
-print(peon.x)
-print(peon.y)
-
-peon.move('UP')
-
-print(peon.x)
-print(peon.y)
-'''
+hoe = WieldableObject('iron hoe', 'hoe', 'iron')
 
 # Test:
-heros = Human([0, 0], 'heros', 'male', 22, 170, 2, 0.300000)
-peasant = Human([2, 4], 'hunter-gatherers', 'male', 22, 170, 2, 0.300000)
+heros = Humanoid([1, 1], 'heros', 'male', 22, 170, 20, 0.300000, 
+strong_hand_wield=hoe)
+peasant = Humanoid([2, 4], 'hunter-gatherers', 'male', 22, 170, 20, 0.300000)
 list_of_creatures.append(heros)
 list_of_creatures.append(peasant)

@@ -21,8 +21,8 @@ from pygame import image
 
 # TODO: This should come from another file (a file the map/game creator submits
 # so that the program know all the images that can be used by the game.)
-everything_that_can_be = ('desert', 'desert_mountain', 'water', 'heros',
-                          'peasant', 'hunter-gatherers')
+everything_that_can_be = ('sand', 'desert_mountain', 'water', 'grass', 'crop',
+                          'heros','peasant', 'hunter-gatherers')
 
 def images(number_of_layers, array):
     '''Looks what is on map then load the image files necessary to represent 
@@ -39,12 +39,8 @@ def images(number_of_layers, array):
                 # the number is correct: however, a list starts at 0
                     try:
                         if cell[present_layer] == thing:
-                            try:
-                                images_loaded[thing] = image.load(
+                            images_loaded[thing] = image.load(
                                     'art/{}.png'.format(thing))
-                            except pygame.error:
-                                print('No {}.png found, using basic rectangle '
-                                      'for {}(s)…'.format(thing))
                     except IndexError:
                         pass
                     present_layer += 1
@@ -54,10 +50,6 @@ def images(number_of_layers, array):
 def what_the_programmer_wants(images_loaded, thing_wanted):
     for thing in everything_that_can_be:
         if thing == thing_wanted:
-            try:
-                images_loaded[thing] = image.load(
+            images_loaded[thing] = image.load(
                     'art/{}.png'.format(thing))
-            except pygame.error:
-                print('No {}.png found, using basic rectangle '
-                      'for {}(s)…'.format(thing))
     return images_loaded

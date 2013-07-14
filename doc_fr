@@ -1,0 +1,88 @@
+Ceci est la documentation du jeu en français.
+
+###############################################################################
+#                                La force                                     #
+###############################################################################
+
+Un point de force correspond à dix points de vie ajoutés aux points de vie de
+base.
+
+Il correspond aussi à un point de dégât causé par les coups de poings.
+
+###############################################################################
+#                                L’agilité                                    #
+###############################################################################
+
+###############################################################################
+#                            Les armes de mélée                               #
+###############################################################################
+
+Ci-dessous sont présentées les valeurs typiques des armes. La signification des
+valeurs est comme suit :
+
+Arme = dégâts de base, multiplicateur de la force additionnant des dégâts à
+ceux de base, force minimale pour tenir à une main, force minimale pour tenir
+à deux mains, seconde(s) écoulée(s) entre chaque attaque, chances d’atteindre
+de base, multiplicateur de l’agilité ajoutant de la chance d’atteindre à celui
+de base.
+
+Poing   =   0       1       0   x   1   50% 3%
+Dague   =   72.72   0.91    0   0   1   20% 3%
+Épée 1M =   31.79   1.54    9   5   2   33% 1.5%
+Hache 1M=   33.93   1.29    2   1   1.7 33% 1.25%
+Masse 1M=   9.72    1.7     6   3   2.5 33% 1%
+Lance 1M=   67.47   1.5     7   4   3.3 35% 2%
+Épée 2M =   31.79   3.08    27  15  3   42% 0.75%
+Hache 2M=   33.93   2.58    20  11  3.5 42% 0.63%
+Masse 2M=   9.72    3.4     22  12  3.5 42% 0.5%
+Lance 2M=   67.47   3       18  10  1.5 50% 1%
+Bâton   =   6.33    1.17    7   4   1.5 50% 3%
+
+Les armes 1M ou 2M n’ont pas à être tenues à une main ou deux mains. Ce ne sont
+que des types d’arme.
+Une arme double son multiplicateur de force si elle est tenue à deux mains,
+mais <?>.
+Une arme tenue à une main dans la main faible ses dégâts infligés se multiplier
+par 0.80 et ses chances d’atteindre se multiplier par 0.80.
+Une arme en bois ne peut pas parer une arme en métal.
+
+Le poing s’équipe automatiquement dans une main dès que le personnage n’y tient
+aucune autre arme. Il ne peut pas être rangé. Il ne peut pas être tenu à deux
+mains. Il ne peut pas être vendu, donné ou jeté. Chaque coup de poing augmente
+la fatigue du poing de 1 point par (<point de vie> + <point d’armure>). Le
+nombre maximal de point de fatigue de poing est de 10. Lorsqu’il a atteint ce
+niveau de fatigue, il ne peut plus être utilisé. Il perd 1 point de fatigue par
+3 minutes. Il ne peut être perdu que si le personnage perd la main
+correspondante.
+
+La dague ne peut être tenue qu’à une main.
+
+L’épée, 1M ou 2M, a de grandes chances de parer.
+
+La hache, 1M ou 2M, détruit les armures.
+
+La hache 2M a de faibles chances de parer.
+
+La masse, 1M ou 2M, peut assommer. Elle pénètre les armures. Elle fait couler
+peu de sang. Même si elle est en bois, elle peut parer une arme en métal.
+
+La lance 2M doit être baissée pour être utilisée. Ceci prend 0.5 seconde. Une
+fois baissée, elle ne peut attaquer une cible que si elle est à une cellule de
+distance. Elle peut traverser les créatures et les murs de barres de métal.
+
+Le bâton fait couler peu de sang. Il a de grandes chances de parer.
+
+###############################################################################
+#                                Les humains                                  #
+###############################################################################
+
+Les humains de type caucasien:
+Les femelles mesurent de 154 cm à 174 cm. La taille la plus haute est atteinte
+à 15 à 20 ans et réduit de 4 cm à 70 ans.
+Les mâles mesurent de 168 cm à 190 cm. La taille la plus haute est atteinte à
+20 à 25 ans et réduit de 4 cm à 70 ans.
+Les enfants nouveau-nés mesurent de 36 cm à 51 cm.
+
+Sources : http://www.halls.md/chart/women-height-w.htm
+          http://www.halls.md/chart/men-height-w.htm
+          Source manquante pour le nouveau-né

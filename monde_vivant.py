@@ -41,29 +41,35 @@ def main():
     draw.set_mode()
     pygame.display.set_caption
     
-    map_ = map_management.map_()
-    map_.read()
+    world = map_management.World()
+    world.read() # TODO: Put that in the __init__…
+    
+    environment = event.Environment()
     
     # We load images here, so that they be loaded only once.
-    images_loaded = load_stuff.images(map_.number_of_layers, map_.map)
+    images_loaded = load_stuff.images(world.number_of_layers, world.map)
     images_loaded = load_stuff.what_the_programmer_wants(
         images_loaded, 'heros')
     images_loaded = load_stuff.what_the_programmer_wants(images_loaded,
         'hunter-gatherers')
+    images_loaded = load_stuff.what_the_programmer_wants(images_loaded,
+        'crop')
+    print(images_loaded)
 
     heros = list_of_creatures[0]
-    map_move = draw.move_camera(heros, map_.map)
+    map_move = draw.move_camera(heros, world.map)
 
-    main_loop(mouse, mouse_down, images_loaded, map_.number_of_layers,
-              map_.map, map_.blocking_cells, map_move, heros)
+    main_loop(mouse, mouse_down, images_loaded, 
+              world, map_move, heros, environment)
 
 
-def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array, blocking_cells_map,
-              map_move, heros, toward_where=False, tick_began=False,
+def main_loop(mouse, mouse_down, images_loaded, world,
+              map_move, heros, environment, toward_where=False, tick_began=False,
               moving=False):
     '''The game loop.'''
     while True:
         mouse_clicked = False
+        pressed_key = False
         
         # TODO: Something that allows the player to start changing direction
         # quickly (as of now, pressing an arrow key before stopping
@@ -74,7 +80,7 @@ def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array, blockin
             # Trying to move…
             if not tick_began and not moving:
                 # First foot…
-                heros.move(blocking_cells_map, toward_where, list_of_creatures)
+                heros.move(world.blocking_cells, toward_where, list_of_creatures)
                 print(heros.pos)
                 tick_began = time()
                 moving = True
@@ -82,7 +88,7 @@ def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array, blockin
             # The next feet…
             if tick_began and moving:
                 if time() - tick_began >= heros.speed:
-                    heros.move(blocking_cells_map, toward_where,
+                    heros.move(world.blocking_cells, toward_where,
                                list_of_creatures)
                     print(heros.pos)
                     tick_began = False
@@ -97,24 +103,28 @@ def main_loop(mouse, mouse_down, images_loaded, number_of_layers, array, blockin
                 if time() - tick_began >= heros.speed:
                     tick_began = False
                     moving = False
-        
-        map_move = draw.move_camera(heros, array)
-        
-        #slide_to, map_move = event.slide_to(slide_to, map_move, draw.CELLSIZE)
+
+
+        map_move = draw.move_camera(heros, world.map)
         
         draw.fill()
-        draw.cells_on_lower_layers(images_loaded, number_of_layers, array,
+        draw.cells_on_lower_layers(images_loaded, world.number_of_layers, world.map,
                    load_stuff.everything_that_can_be, map_move)
-        draw.creatures(list_of_creatures, load_stuff.everything_that_can_be, images_loaded, map_move, array)
-        draw.cells_on_higher_layer(images_loaded, array, load_stuff.everything_that_can_be, map_move)
+        draw.creatures(list_of_creatures, load_stuff.everything_that_can_be, images_loaded, map_move, world.map)
+        draw.cells_on_higher_layer(images_loaded, world.map, load_stuff.everything_that_can_be, map_move)
         # draw.bottom_bar_zone()
         
-        mouse, mouse_clicked, mouse_down, toward_where = event.handling(
-            mouse, mouse_clicked, mouse_down, toward_where)
+        mouse, mouse_clicked, mouse_down, toward_where, pressed_key = event.handling(
+            mouse, mouse_clicked, mouse_down, toward_where, pressed_key)
         
         if mouse_clicked:
-            event.get_cell_at_pixel(mouse[0], mouse[1], array, draw.CELLSIZE,
-                                    map_move)
+            pass
+            # event.get_cell_at_pixel(mouse[0], mouse[1], world.map, draw.CELLSIZE,
+            #                        map_move)
+        
+        if pressed_key:
+            if pressed_key == 't':
+                heros.till(environment, world)
         
         pygame.display.update()
         FPSCLOCK.tick(FPS)

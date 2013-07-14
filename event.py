@@ -20,8 +20,22 @@
 import pygame
 import sys
 from pygame.locals import *
+from time import time
 
-def handling(mouse, mouse_clicked, mouse_down, toward_where):
+class Environment:
+    '''Takes notes of everything of importance on the map, like the crops,
+    the time left for wheat plantations to mature, etc. Also contains functions
+    that modify the environment (e.g. a peasant tills, so it adds a crop…).'''
+    def __init__(self, crops=None):
+        self.crops = crops
+    def add_crop(self, world, pos):
+        if self.crops is None:
+            self.crops = []
+        print(world.modify(0, 'crop', pos))
+        print('crop3')
+
+
+def handling(mouse, mouse_clicked, mouse_down, toward_where, pressed_key):
     '''Handles every event. It returns the updates of the mouse position and of
     the state of the mouse (did it click? is the mouse pressed?).'''
     for event in pygame.event.get():
@@ -48,21 +62,10 @@ def handling(mouse, mouse_clicked, mouse_down, toward_where):
             elif event.key == K_UP:
                 toward_where = 'up'
         elif event.type == KEYUP:
+            if event.key == K_t:
+                pressed_key = 't'
             toward_where = False
-    return mouse, mouse_clicked, mouse_down, toward_where
-
-
-def slide_to(slide_to, map_move, CELLSIZE):
-    if slide_to:
-        if slide_to == 'up':
-            map_move[1] -= CELLSIZE
-        elif slide_to == 'down':
-            map_move[1] += CELLSIZE
-        elif slide_to == 'left':
-            map_move[0] -= CELLSIZE
-        elif slide_to == 'right':
-            map_move[0] += CELLSIZE
-    return slide_to, map_move
+    return mouse, mouse_clicked, mouse_down, toward_where, pressed_key
 
 
 def get_cell_at_pixel(x, y, array, CELLSIZE, map_move):
