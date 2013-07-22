@@ -30,7 +30,7 @@ Poing   =   0       1       0   x   1   50% 3%
 Dague   =   72.72   0.91    0   0   1   20% 3%
 Épée 1M =   31.79   1.54    9   5   2   33% 1.5%
 Hache 1M=   33.93   1.29    2   1   1.7 33% 1.25%
-Masse 1M=   9.72    1.7     6   3   2.5 33% 1%
+Masse 1M=   9.72    2.31    6   3   2.5 33% 1%
 Lance 1M=   67.47   1.5     7   4   3.3 35% 2%
 Épée 2M =   31.79   3.08    27  15  3   42% 0.75%
 Hache 2M=   33.93   2.58    20  11  3.5 42% 0.63%
@@ -76,6 +76,31 @@ Le bâton fait couler peu de sang. Il a de grandes chances de parer.
 #                                Les humains                                  #
 ###############################################################################
 
+# Société #
+Les humains ont des sociétés monarchiques, féodales et patriarcales.
+
+Leur religion est monothéiste. Les textes sacrés des humains racontent que Dieu a créé le monde en débutant
+par le soleil. Ce dernier prend son éclat d’une partie de l’essence de Dieu.
+C’est la vérité unique, absolue et parfaite matérialisée. Elle éclaire le monde
+entier de son ordre.
+
+Le concept fondamental de la religion est que sans
+lumière, il n’y pas d’ordre. La Lumière devient alors aussi un concept abstrait
+pour parler des humains et de leurs relations avec les autres. Lorsqu’un humain
+s’écarte du droit chemin, il se perd dans l’Obscurité. L’Église de la Lumière
+est là pour s’assurer que chaque homme reste sur le droit chemin. Pour cette
+raison, l’Église occupe une place importante dans la vie des personnes des
+communautés où l’Église a le pouvoir.
+
+Les royaumes et autres organisations politiques humains cherchent avant tout à défendre leur territoire. Certains
+dirigeants, rois ou seigneurs, chercheront à étendre leur pouvoir si leur
+royaume ou seigneurie connaît du succès. D’autres chercheront simplement à
+améliorer les conditions de vie de leurs sujets ou serfs, à faire progresser
+la science de la magie, à contribuer à la théologie et la philosophie ou à
+envoyer des missions de conversion. Les dirigeants s’opposant à la magie
+peuvent aussi tenter de la combattre (généralement par des moyens pacifique).
+
+# Physique #
 Les humains de type caucasien:
 Les femelles mesurent de 154 cm à 174 cm. La taille la plus haute est atteinte
 à 15 à 20 ans et réduit de 4 cm à 70 ans.
@@ -86,3 +111,78 @@ Les enfants nouveau-nés mesurent de 36 cm à 51 cm.
 Sources : http://www.halls.md/chart/women-height-w.htm
           http://www.halls.md/chart/men-height-w.htm
           Source manquante pour le nouveau-né
+
+###############################################################################
+#                                Les elfes                                    #
+###############################################################################
+
+Les elfes ont habituellement des sociétés théocratiques et matriarcales.
+Certains elfes vivent dans des sociétés libertaires et égalitaires.
+
+# Religion #
+Leur religion est bithéiste. Les textes sacrés des elfes ne racontent rien
+sur la création du monde. Ils racontent par contre qu’il y a très longtemps,
+seul un couple de deux dieux, le Dieu de la Nature et la Déesse de l’Esprit, existait, avec le monde que le premier avait créé. Alors, dans ce monde, il n’y avait que la Nature. La Nature est un concept pour parler de tout ce qui
+ne peut pas s’organiser soi-même. Cela inclut la terre, les plantes, les bêtes,
+et même les corps elfes. Mais les elfes, en tant que personnes, n’en font pas
+partie. Ceux qui sont conscients de leur intelligence, de leur société, et
+peuvent critiquer et juger, ont le don d’Esprit. L’Esprit a été donné à certaines
+créatures par la Déesse de l’Esprit afin de mieux défendre la création de son mari des menaces présentes et futures pesant sur le monde. L’Esprit, bien-sûr, ne fut pas parfait. Elle pouvait représenter une menace pour la nature et la Déesse en était consciente. Mais elle voyait malgré tout en lui, ultimement, le pouvoir de sauver le monde de menaces contre lesquelles la Nature ne pourrait rien faire. Certaines créatures douées d’Esprit approchaient parfois les Dieux et se faisaient guardiens du monde.
+
+L’Église des elfes conservent des textes qui racontent leur histoire. La voici :
+Il y a plusieurs milliers d’années, la société elfe se développa, affinait sa technologie, progressait dans les sciences. Elle pratiquait la magie abondamment et élargissait constamment son champs de connaissance dans ce domaine. Les elfes se servaient de la magie pour faire fonctionner leurs villes immenses, pour pratiquer l’agriculture et pour faire la guerre. Leur empire s’étendait sur la presque totalité du monde.
+
+Un jour, des mages d’une école prestigieuse étaient entrés en contact avec des êtres d’un autre monde. Ils avaient été promis pouvoir immense et immortalité. Ils formèrent un groupe secret et étendirent leur influence dans toutes les organisations de la société elfe. Une fois qu’ils eussent suffisamment de pouvoir, ils commencèrent à briser la séparation entre leur monde et l’autre monde. Ils amenèrent les êtres maléfiques et tordus de l’autre monde dans le leur et combattirent leur peuple pour avoir la domination absolue. Une fois qu’ils eussent pacifiés une zone considérable (et mis à feu leur capitale immense par le même moment), ils se mirent à tenter d’amener le Dieu de cet autre monde, le souverain des démons, dans le leur. Sa seule puissance faisait trembler la terre.
+
+Une armée conduite par les plus sages et par les guardiens du monde, les assermentés des dieux, repoussa les démons et entrèrent dans la capitale. Ils se dépêchèrent et allèrent empêcher l’invocation du dieu démoniaque. Quand ils eussent brisé le sort permettant sa matérialisation dans ce monde, une charge d’énergie résonna dans la terre, dont ses tremblements détruit toute structure. Chaque volcan entra en irruption, et leurs cendres couvrèrent le ciel d’un drap noir qui plongea le monde dans l’obscurité et le froid pendant quelques années.
+
+Le monde avait été profondément détruit. Plus aucune vie n’était la même. Tous avaient perdu de leurs proches.
+
+Les sages et les guardiens du monde dirent aux leurs de ne plus répéter les erreurs passées. Leurs sagesse avait été entendu et les elfes se mirent à bâtir une nouvelle société, cette fois-ci sans magie, sans excès, se basant sur la sagesse de leurs plus sages.
+
+# Société #
+Bien-sûr, ils bannissent la magie. Ils peuvent savoir si la magie est pratiquée
+sur leur territoire, et ils exilent quiconque, pour quelque raison que ce soit,
+en pratiquent.
+
+Les femmes ont le rôle de prêtresses et de guerrières. Les hommes ont le rôle
+de druides. Cela est en accordance avec leurs conceptions philosophiques du
+monde, basé sur une dualité entre l’Esprit et la Nature. Les femmes seraient
+plus en contrôle de leurs émotions et plus proches de leur Déesse et de son
+message. Les hommes, par leur force physique et leur force vitale, seraient
+proches de la Nature.
+
+L’Église est très importante dans les sociétés elfes. Elle s’occupe de
+l’administration, des affaires civiques, de la justice et de la défence et de
+la guerre. À la tête de l’Église se trouve la Grande Prêtresse. Toute femme
+faisant partie de l’armée a nécéssairement un peu d’entraînement religieux.
+
+Les druides développent la science druidique et accomplissent plusieurs tâches
+essentielles à la société des elfes. Leur art fait en sorte que leur société soit en
+symbiose avec la forêt.
+
+Les elfes acceptent quiconque étant converti à leur religion ou valeurs dans
+leur communauté. Il est à noter que bien que l’Église soit très présente, elle
+tolère l’existence de croyances différentes, tant qu’elles soit en concordance
+avec leurs valeurs et respectent la légitimité de l’Église.
+
+Dans le cas des communautés libertaires, il n’y pas de séparation de rôle selon
+le sexe et il n’y a pas d’Église.
+
+Un monde où la magie n’est plus une menace importante et où la grande majorité
+des êtres intelligents et sociaux sont convertis à leur religion ou valeurs
+aura tendance à devenir complètement libertaire. Les communautés libertaires
+peuvent apparaître suite à une révolution ou à la création d’une communauté
+intentionnelle.
+
+# Diplomatie #
+Lorsque l’usage de la magie devient menaçante, les elfes chercheront à répandre leur philosophie, leurs croyances et leurs
+valeurs chez les autres espèces intelligentes.
+
+Ils ont de meilleures relations avec les royaumes humains qui ont aboli la
+magie. Ils font la guerre aux royaumes pratiquant la magie s’ils causent trop
+de problèmes ou s’ils sont suffisamment faibles et isolés.
+
+Si leurs forêts se font détruire (ie: exploitation forestière) ou s’ils
+perçoivent une importante destruction environmentale, ils peuvent entrer en
+guerre pour défendre l’environment.

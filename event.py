@@ -31,8 +31,9 @@ class Environment:
     def add_crop(self, world, pos):
         if self.crops is None:
             self.crops = []
-        print(world.modify(0, 'crop', pos))
-        print('crop3')
+        world.modify(0, 'crop', pos)
+        self.crops.append({'pos':pos,'created':time(),'seeded':None,
+                     'growth_level':None})
 
 
 def handling(mouse, mouse_clicked, mouse_down, toward_where, pressed_key):
@@ -64,6 +65,10 @@ def handling(mouse, mouse_clicked, mouse_down, toward_where, pressed_key):
         elif event.type == KEYUP:
             if event.key == K_t:
                 pressed_key = 't'
+            if event.key == K_a:
+                pressed_key = 'a'
+            if event.key == K_z:
+                pressed_key = 'z' # this is for tests
             toward_where = False
     return mouse, mouse_clicked, mouse_down, toward_where, pressed_key
 

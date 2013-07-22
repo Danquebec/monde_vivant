@@ -30,6 +30,13 @@ BOTTOMBARSIZEy = 60
 BOTTOMBARCOLOR = (101, 150, 200)
 
 
+class Drawable(object):
+    def __init__(self):
+        self.image = image
+
+    def draw(self):
+        pass
+
 
 def set_mode():
     '''Sets the mode.'''

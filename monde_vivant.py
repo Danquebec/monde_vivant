@@ -65,7 +65,7 @@ def main():
 
 def main_loop(mouse, mouse_down, images_loaded, world,
               map_move, heros, environment, toward_where=False, tick_began=False,
-              moving=False):
+              moving=False, action_call=False):
     '''The game loop.'''
     while True:
         mouse_clicked = False
@@ -77,9 +77,16 @@ def main_loop(mouse, mouse_down, images_loaded, world,
         # this direction. You have to carefully remove your finger from the
         # the arrow key you were pressing before pressing another).
         if toward_where:
+            heros.facing = toward_where
             # Trying to move…
             if not tick_began and not moving:
                 # First foot…
+                if heros.action is not None:
+                    heros.action, heros_time_length = None, None
+                    print('You interrupted your action.')
+                if heros.foe is not None:
+                    heros.foe = None
+                    print('You interrupted your fight.')
                 heros.move(world.blocking_cells, toward_where, list_of_creatures)
                 print(heros.pos)
                 tick_began = time()
@@ -104,7 +111,6 @@ def main_loop(mouse, mouse_down, images_loaded, world,
                     tick_began = False
                     moving = False
 
-
         map_move = draw.move_camera(heros, world.map)
         
         draw.fill()
@@ -121,11 +127,24 @@ def main_loop(mouse, mouse_down, images_loaded, world,
             pass
             # event.get_cell_at_pixel(mouse[0], mouse[1], world.map, draw.CELLSIZE,
             #                        map_move)
-        
+
         if pressed_key:
             if pressed_key == 't':
-                heros.till(environment, world)
-        
+                action_call = heros.till_s()
+            if pressed_key == 'a':
+                heros.attack_s(list_of_creatures)
+            if pressed_key == 'z':
+                print(heros.facing)
+
+        if heros.action:
+            if time() - action_call >= heros.time_length:
+                if heros.action == 'till':
+                    heros.till_e(environment, world)
+
+        if heros.foe:
+            if time() - heros.last_attack >= heros.gear['strong hand'].speed:
+                heros.attack_e()
+
         pygame.display.update()
         FPSCLOCK.tick(FPS)
 

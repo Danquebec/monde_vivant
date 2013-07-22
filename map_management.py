@@ -39,6 +39,4 @@ class World():
         self.number_of_layers = len(self.map[0][0])
 
     def modify(self, layer, image, pos):
-        print('modify')
         self.map[pos[0]][pos[1]][layer] = image
-        return 'penis'
