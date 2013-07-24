@@ -67,12 +67,14 @@ def main():
                                                                   noise_f,
                                                                   noise_o)
                     world.draw_minimap()
-                    
+                
+                elif event.key == pygame.K_s:
                     pickle_map.find_terrain(world.width, world.height,
                                             world.waterline, world.map)
                     pickle_map.find_blocking_cells()
                     # pickle_map.double_size()
                     pickle_map.dump_map()
+                    print('Map saved!')
 
 
         screen.blit(world.minimap, (0,0))

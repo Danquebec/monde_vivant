@@ -22,16 +22,18 @@ from draw import Drawable
 
 list_of_creatures = []
 
+
 class Creature(object):
     '''Anything that moves and can do actions in the game.'''
-    def __init__(self, action, time_length, pos, image, speed, last_attack,
-                 foe):
+    def __init__(self, action, time_length, pos, image, speed, last_hit,
+                 final_hit, foe):
         self.action = action
         self.time_length = time_length
         self.pos = pos
         self.image = image
         self.speed = speed
-        self.last_attack = last_attack
+        self.last_hit = last_hit
+        self.final_hit = final_hit
         self.foe = foe
 
     def move(self, blocking_cells_map, toward_where, list_of_creatures):
@@ -61,6 +63,7 @@ class Creature(object):
                 if (not against_obstacle(blocking_cells_map, x, y) and not
                         against_creature(list_of_creatures, x, y)):
                     self.pos = [x, y]
+                    print(blocking_cells_map[x])
          
         if toward_where == 'up':
             try_to_move(blocking_cells_map, list_of_creatures,
@@ -79,11 +82,11 @@ class Creature(object):
 class Humanoid(Creature, Drawable):
     '''A humanoid creature.'''
     def __init__(self, pos=[0,0], action=None, time_length=None, image=None,
-                 speed=None, last_attack=None, foe=None,
+                 speed=None, last_hit=None, final_hit=False, foe=None,
                  facing=None, sex=None, age=None, size=None, strength=None,
                  agility=None, strong_hand=None, weak_hand=None):
         Creature.__init__(self, action, time_length, pos, image, speed,
-                          last_attack, foe)
+                          last_hit, final_hit, foe)
         #Drawable.__init__(self, image)
         self.sex = sex # female or male
         self.age = age
@@ -100,26 +103,28 @@ class Humanoid(Creature, Drawable):
         self.foe = self.face_other(list_of_creatures)
         if self.foe:
             print('You are attacking {}!'.format(self.foe.image))
-            self.last_attack = time()
+            self.last_hit = time()
         else:
             print('There is nothing to attack.')
 
     def attack_e(self):
         def hit():
-            try:
-                self.foe.get_wound(
-                    self.gear['strong hand'].base_damage +
-                    (self.strength * self.gear['strong hand'].damage_scaler))
-                self.last_attack = time()
-            except AttributeError:
-                self.last_attack = 'last hit'
-        if type(self.last_attack) is str:
-            hit()
-            self.last_attack = None
-            print('You can’t reach your foe anymore!')
-        else:
-            hit()
+            self.foe.get_wound(
+                self.gear['strong hand'].base_damage +
+                (self.strength * self.gear['strong hand'].damage_scaler))
+            if self.final_hit is not True:
+                self.last_hit = time()
+            else:
+                self.last_hit = None
+                self.final_hit = None
+                self.foe = None
+                print('You can’t reach your foe anymore.')
 
+        foe = self.face_other(list_of_creatures)
+        if foe is None:
+            self.final_hit = True
+        self.foe = foe
+        hit()
 
     def face_other(self, list_of_creatures):
         for creature in list_of_creatures:
@@ -160,7 +165,6 @@ class Humanoid(Creature, Drawable):
         environment.add_crop(world, self.pos)
         self.action, self.time_length = None, None
         print('Finished tilling!')
-        
 
 
 class WieldableObject(object):
@@ -181,11 +185,11 @@ class WieldableObject(object):
 hoe = WieldableObject('iron hoe', 'hoe', 'iron', 41, 1.7, 6, 3, 3.0, 35, 0.6)
 
 # Test:
-heros = Humanoid(pos=[1, 1], image='heros', speed=0.300000, facing='down',
+hero = Humanoid(pos=[1, 1], image='hero', speed=0.300000, facing='down',
                  sex='male', age=22, size=170, strength=20, agility=15,
                  strong_hand=hoe)
 peasant = Humanoid(pos=[2, 4], image='hunter-gatherers', speed=0.300000,
                    facing='down', sex='male', age=22, size=170,
                    strength=20, agility=15)
-list_of_creatures.append(heros)
+list_of_creatures.append(hero)
 list_of_creatures.append(peasant)

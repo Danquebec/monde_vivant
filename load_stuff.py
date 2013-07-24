@@ -21,8 +21,9 @@ from pygame import image
 
 # TODO: This should come from another file (a file the map/game creator submits
 # so that the program know all the images that can be used by the game.)
-everything_that_can_be = ('sand', 'desert_mountain', 'water', 'grass', 'crop',
-                          'heros','peasant', 'hunter-gatherers')
+things_that_can_be = {'crop':1, 'grass':3, 'sand':7, 'water':8}
+#things_that_can_be = ('crop', 'grass', 'sand', 'water')
+creatures_that_can_be = ('hero', 'peasant', 'hunter-gatherers')
 
 def images(number_of_layers, array):
     '''Looks what is on map then load the image files necessary to represent 
@@ -31,14 +32,14 @@ def images(number_of_layers, array):
     # something is found in a cell, even if the image have already been loaded.
     # Make it check if it has been loaded so it doesn’t do it each time.
     images_loaded = {}
-    for thing in everything_that_can_be:
+    for thing in things_that_can_be:
         for column in array:
             for cell in column:
                 present_layer = 0
                 while present_layer < number_of_layers: # “Less than”, because 
                 # the number is correct: however, a list starts at 0
                     try:
-                        if cell[present_layer] == thing:
+                        if cell[present_layer] == things_that_can_be[thing]:
                             images_loaded[thing] = image.load(
                                     'art/{}.png'.format(thing))
                     except IndexError:
@@ -48,8 +49,9 @@ def images(number_of_layers, array):
 
 
 def what_the_programmer_wants(images_loaded, thing_wanted):
-    for thing in everything_that_can_be:
-        if thing == thing_wanted:
-            images_loaded[thing] = image.load(
-                    'art/{}.png'.format(thing))
+    for iterable in (things_that_can_be,creatures_that_can_be):
+        for thing in iterable:
+            if thing == thing_wanted:
+                images_loaded[thing] = image.load(
+                        'art/{}.png'.format(thing))
     return images_loaded

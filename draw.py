@@ -49,17 +49,17 @@ def fill():
     DISPLAYSURF.fill((0, 0, 0))
 
 
-def cells_on_lower_layers(images_loaded, number_of_layers, array, everything_that_can_be,
-          map_move):
+def cells_on_lower_layers(images_loaded, number_of_layers, array,
+                          things_that_can_be, map_move):
     '''Draws all the cells on the layers lower than the creatures.'''
     for number in range(0, number_of_layers-1): # Hum… This was at 4 before… Why. How.
         column_number = 0
         for column in array:
             cell_number = 0
             for cell in column:
-                for thing in everything_that_can_be:
+                for thing in things_that_can_be:
                     try:
-                        if cell[number] == thing:
+                        if cell[number] == things_that_can_be[thing]:
                             DISPLAYSURF.blit(
                                     images_loaded[thing],
                                     ((column_number*CELL_SIZE)-map_move[0],
@@ -70,15 +70,15 @@ def cells_on_lower_layers(images_loaded, number_of_layers, array, everything_tha
             column_number += 1
 
 
-def cells_on_higher_layer(images_loaded, array, everything_that_can_be, map_move):
+def cells_on_higher_layer(images_loaded, array, things_that_can_be, map_move):
     '''Draws the cells on the layer higher than the creatures.'''
     column_number = 0
     for column in array:
         cell_number = 0
         for cell in column:
-            for thing in everything_that_can_be:
+            for thing in things_that_can_be:
                 try:
-                    if cell[2] == thing:
+                    if cell[2] == things_that_can_be[thing]:
                         DISPLAYSURF.blit(
                                 images_loaded[thing],
                                 ((column_number*CELL_SIZE)-map_move[0],
@@ -90,21 +90,21 @@ def cells_on_higher_layer(images_loaded, array, everything_that_can_be, map_move
 
 MARGIN = 5
 
-def creatures(list_of_creatures, everything_that_can_be, images_loaded, map_move, array):
-    def put_heros_at_right_place(heros, axis, cells):
+def creatures(list_of_creatures, creatures_that_can_be, images_loaded, map_move, array):
+    def put_hero_at_right_place(hero, axis, cells):
         #print(cells)
-        if heros.pos[axis] <= MARGIN:
-            screen_pos = heros.pos[axis]
-        elif heros.pos[axis] > MARGIN and heros.pos[axis] <= cells - MARGIN:
+        if hero.pos[axis] <= MARGIN:
+            screen_pos = hero.pos[axis]
+        elif hero.pos[axis] > MARGIN and hero.pos[axis] <= cells - MARGIN:
             screen_pos = 5
-        elif heros.pos[axis] > cells - MARGIN:
-            screen_pos = heros.pos[axis] - (cells - (MARGIN * 2))
+        elif hero.pos[axis] > cells - MARGIN:
+            screen_pos = hero.pos[axis] - (cells - (MARGIN * 2))
         return screen_pos
     for creature in list_of_creatures:
-        for thing in everything_that_can_be:
-            if creature == list_of_creatures[0]: # if it’s the heros
+        for thing in creatures_that_can_be:
+            if creature == list_of_creatures[0]: # if it’s the hero
                 if creature.image == thing:
-                    screen_pos = [put_heros_at_right_place(list_of_creatures[0], 0, len(array)), put_heros_at_right_place(list_of_creatures[0], 1, len(array[0]))]
+                    screen_pos = [put_hero_at_right_place(list_of_creatures[0], 0, len(array)), put_hero_at_right_place(list_of_creatures[0], 1, len(array[0]))]
                     DISPLAYSURF.blit(images_loaded[thing], ((screen_pos[0]*CELL_SIZE), (screen_pos[1]*CELL_SIZE)))
             
             else:
@@ -118,14 +118,14 @@ def bottom_bar_zone():
         BOTTOMBARSIZEx, BOTTOMBARSIZEy))
 '''
 
-def move_camera(heros, array):
-    def move_camera_on_both_axis(heros, cells, axis):
-        if heros.pos[axis] <= MARGIN:
+def move_camera(hero, array):
+    def move_camera_on_both_axis(hero, cells, axis):
+        if hero.pos[axis] <= MARGIN:
             map_move = 0
-        elif heros.pos[axis] > MARGIN and heros.pos[axis] <= cells - MARGIN:
-            map_move = (heros.pos[axis] - MARGIN) * CELL_SIZE
-        elif heros.pos[axis] > cells - MARGIN:
+        elif hero.pos[axis] > MARGIN and hero.pos[axis] <= cells - MARGIN:
+            map_move = (hero.pos[axis] - MARGIN) * CELL_SIZE
+        elif hero.pos[axis] > cells - MARGIN:
             map_move = (cells - (MARGIN * 2)) * CELL_SIZE
         return map_move
-    map_move = [move_camera_on_both_axis(heros, len(array), 0), move_camera_on_both_axis(heros, len(array[0]), 1)]
+    map_move = [move_camera_on_both_axis(hero, len(array), 0), move_camera_on_both_axis(hero, len(array[0]), 1)]
     return map_move

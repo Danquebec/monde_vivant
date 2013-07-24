@@ -17,11 +17,11 @@ class PickleMap():
                 cell = int(map_[y][x])
 
                 if cell <= waterline:
-                    row.append(['water', 0, 0]) # eau
+                    row.append([8, 0, 0]) # water (“water”)
                 elif cell > waterline and cell <= waterline + 50:
-                    row.append(['sand', 0, 0]) # plage
+                    row.append([7, 0, 0]) # beaches (“sand”)
                 elif cell > waterline + 50:
-                    row.append(['grass', 0, 0]) # terrain
+                    row.append([3, 0, 0]) # terrain (“grass”)
             self.pickle_map.append(row)
         self.height = len(self.pickle_map)
         self.width = len(self.pickle_map[0])
@@ -30,7 +30,7 @@ class PickleMap():
         for row in self.pickle_map:
             b_row = []
             for cell in row:
-                if cell[0] == 'water':
+                if cell[0] == 8: # if the cell is water
                     b_row.append(1)
                 else:
                     b_row.append(0)
