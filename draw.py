@@ -20,10 +20,10 @@
 import pygame
 from pygame.locals import *
 
-CELL_SIZE = 50
+CELL_SIZE = 32
 
-WINDOWSIZEx = 11 * CELL_SIZE # Size of the screen
-WINDOWSIZEy = 11 * CELL_SIZE # Size of the screen
+WINDOWSIZEx = 10 * CELL_SIZE # Size of the screen
+WINDOWSIZEy = 10 * CELL_SIZE # Size of the screen
 
 BOTTOMBARSIZEx = WINDOWSIZEx
 BOTTOMBARSIZEy = 60
@@ -37,6 +37,12 @@ class Drawable(object):
     def draw(self):
         pass
 
+'''
+class InventoryInterface(object): # Ouais, pénis.
+    def prepare_inventory_interface(self):
+        font_obj = pygame.font.Font('freesansbold.ttf', 15)
+        text_pos = [WINDOWSIZEx - 100, 5]
+'''
 
 def set_mode():
     '''Sets the mode.'''
@@ -50,8 +56,20 @@ def fill():
 
 
 def cells_on_lower_layers(images_loaded, number_of_layers, array,
-                          things_that_can_be, map_move):
+                          things_that_can_be, map_move, hero):
     '''Draws all the cells on the layers lower than the creatures.'''
+    for layer in xrange(0, number_of_layers-1):
+        for x in xrange(hero.pos[0]-5, hero.pos[0]+5):
+            for y in xrange(hero.pos[1]-5, hero.pos[1]+5):
+                for thing in things_that_can_be:
+                    try:
+                        if array[x][y][layer] == things_that_can_be[thing]:
+                            DISPLAYSURF.blit(images_loaded[thing],
+                                             ((x*CELL_SIZE)-map_move[0],
+                                             (y*CELL_SIZE)-map_move[1]))
+                    except IndexError:
+                        pass
+    '''
     for number in range(0, number_of_layers-1): # Hum… This was at 4 before… Why. How.
         column_number = 0
         for column in array:
@@ -68,10 +86,23 @@ def cells_on_lower_layers(images_loaded, number_of_layers, array,
                         pass
                 cell_number += 1
             column_number += 1
+    '''
 
 
-def cells_on_higher_layer(images_loaded, array, things_that_can_be, map_move):
+def cells_on_higher_layer(images_loaded, array, things_that_can_be, map_move,
+                          hero):
     '''Draws the cells on the layer higher than the creatures.'''
+    for x in xrange(hero.pos[0]-5, hero.pos[0]+5):
+        for y in xrange(hero.pos[1]-5, hero.pos[1]+5):
+            for thing in things_that_can_be:
+                try:
+                    if array[x][y][2] == things_that_can_be[thing]:
+                        DISPLAYSURF.blit(images_loaded[thing],
+                                         ((x*CELL_SIZE)-map_move[0],
+                                         (y*CELL_SIZE)-map_move[1]))
+                except IndexError:
+                    pass
+'''
     column_number = 0
     for column in array:
         cell_number = 0
@@ -87,6 +118,7 @@ def cells_on_higher_layer(images_loaded, array, things_that_can_be, map_move):
                     pass
             cell_number += 1
         column_number += 1
+'''
 
 MARGIN = 5
 
@@ -129,3 +161,4 @@ def move_camera(hero, array):
         return map_move
     map_move = [move_camera_on_both_axis(hero, len(array), 0), move_camera_on_both_axis(hero, len(array[0]), 1)]
     return map_move
+

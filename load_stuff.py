@@ -21,9 +21,11 @@ from pygame import image
 
 # TODO: This should come from another file (a file the map/game creator submits
 # so that the program know all the images that can be used by the game.)
-things_that_can_be = {'crop':1, 'grass':3, 'sand':7, 'water':8}
+things_that_can_be = {'crop':1, 'grass':3, 'sand':7, 'water':8,
+                      'wheat0':10, 'wheat1':11, 'wheat1_top':12,
+                      'wheat2':13, 'wheat2_top':14}
 #things_that_can_be = ('crop', 'grass', 'sand', 'water')
-creatures_that_can_be = ('hero', 'peasant', 'hunter-gatherers')
+creatures_that_can_be = ('hero', 'peasant')
 
 def images(number_of_layers, array):
     '''Looks what is on map then load the image files necessary to represent 
@@ -49,7 +51,7 @@ def images(number_of_layers, array):
 
 
 def what_the_programmer_wants(images_loaded, thing_wanted):
-    for iterable in (things_that_can_be,creatures_that_can_be):
+    for iterable in (things_that_can_be, creatures_that_can_be):
         for thing in iterable:
             if thing == thing_wanted:
                 images_loaded[thing] = image.load(

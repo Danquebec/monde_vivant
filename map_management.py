@@ -30,7 +30,7 @@ class World():
 
     def read(self):
         '''Creates the reader of a file, the 2D array from the file, finds
-        thenumber_of_layers used on this map by looking the first cell of the
+        the number_of_layers used on this map by looking the first cell of the
         map (array)'''
         self.file_read = open('map', 'rb')
         map_dic = pickle.load(self.file_read)

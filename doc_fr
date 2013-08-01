@@ -1,5 +1,27 @@
 Ceci est la documentation du jeu en français.
 
+
+###############################################################################
+#                              L’inventaire                                   #
+###############################################################################
+
+Une unité d’espace correspond à l’espace prise par une bague.
+
+###############################################################################
+#                            L’agriculture                                    #
+###############################################################################
+
+Le joueur choisi le type de graines qu’il plantera avec s et ensuite avec la
+touche associée à un type de graine. Exemple :
+s, w (pour *w*heat)
+Ensuite il plante les graines avec p.
+
+
+Règle : diviser le nombre de jours que ça prend pour les récoltes dans notre
+monde par quatre pour trouver celui du jeu.
+Dans notre monde, le blé prend entre 110 et 130 jours pour pousser.
+Dans ce jeu, ce sera 30 jours.
+
 ###############################################################################
 #                                La force                                     #
 ###############################################################################
